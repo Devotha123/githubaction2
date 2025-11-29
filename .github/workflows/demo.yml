@@ -8,9 +8,8 @@ on:
 
   pull_request:
     branches: [main, dev]
-
-  schedule:
-    - cron: "*/1 * * * *"
+  #schedule:
+   # - cron: "*/1 * * * *"
 jobs:
   setup_job:
     runs-on: ubuntu-latest
@@ -28,12 +27,14 @@ jobs:
         run: cat README.md
 
   build_job:
+    needs: setup_job
     runs-on: windows-latest
     steps:
       - name: display hello
         run: echo "hello"
 
   deploy_job:
+    needs: [setup_job , build_job]
     runs-on: macos-latest
     steps:
       - name: display mac message
